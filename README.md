@@ -21,7 +21,7 @@ Flask REST API for the Nurov desktop app. Handles accounts, notes, avatars, tags
 5. Copy .env.example to .env and set SECRET_KEY and DATABASE_URL
 6. Run:  python run.py
 
-Health check: GET http://127.0.0.1:5000/api/health
+Health check: GET [http://127.0.0.1:5000/api/health](https://nurov-api-hosted.onrender.com/api/health)
 
 ## Environment variables
 
