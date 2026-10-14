@@ -70,7 +70,6 @@ def close_db(exc=None):
         pass
     pool.putconn(conn)
 
-
 def init_db(app):
     if not app.config["DATABASE_URL"]:
         raise RuntimeError(
@@ -89,11 +88,16 @@ def init_db(app):
     conn = pool.getconn()
     try:
         with conn.cursor() as cur:
-            for statement in SCHEMA.split(";"):
-                s = statement.strip()
-                if s:
-                    cur.execute(s)
-        conn.commit()
+            cur.execute("SELECT pg_advisory_lock(727001)")
+            try:
+                for statement in SCHEMA.split(";"):
+                    s = statement.strip()
+                    if s:
+                        cur.execute(s)
+                conn.commit()
+            finally:
+                cur.execute("SELECT pg_advisory_unlock(727001)")
+                conn.commit()
     finally:
         pool.putconn(conn)
 
